@@ -1,5 +1,5 @@
 const express = require('express');
-const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config(); // Load environment variables
 
@@ -26,7 +26,7 @@ app.use(
 
 // Security and JSON Parsing Middleware
 app.use(express.json({ limit: '10mb' }));
-app.use(helmet());
+app.use(require('helmet')());
 
 // Root Test Endpoint
 app.get('/common-backend/test', (req, res) => {
@@ -45,13 +45,13 @@ app.use('/common-backend', require('./Routes/routes.js'));
 app.use(notFound);
 app.use(errorHandler);
 
-// Establish MongoDB connection when the server starts
+// Establish MongoDB connection and start server
 async function startServer() {
   try {
     // Establish MongoDB connection before starting the server
     await MongoConnection();
 
-    // Start HTTP Server only after DB connection is successful
+    // Start the HTTP server only after DB connection is successful
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });

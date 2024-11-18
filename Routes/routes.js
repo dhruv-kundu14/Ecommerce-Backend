@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+// Import controller functions
 const ctrlFetchProducts = require('../Controller/fetchProducts');
-
+const ctrlAuth = require('../Controller/loginForm'); // Add the auth controller
+const registerFormController = require('../controller/registerForm'); // Import the register controller
 
 /**
  * @swagger
@@ -34,8 +36,11 @@ const ctrlFetchProducts = require('../Controller/fetchProducts');
  *              description: Successful response
  */
 
-
-router.get('/getProducts', ctrlFetchProducts.getProducts);
+// Route for fetching products (GET request)
+router.get('/fetchProducts', ctrlFetchProducts.fetchProducts);
+router.post('/api/register', ctrlAuth.registerUser);
+router.post('/api/loginForm', ctrlAuth.loginUser);
+router.post('/api/registerForm', registerFormController.registerUser);
 
 // Example route handler
 router.get('/example', (req, res) => {
@@ -63,8 +68,5 @@ router.get('/GetBit', (req, res) => {
     </Zero>`
   );
 });
-
-// Placeholder for adding future routes
-// Example: router.use('/your-api', yourApiController);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { MongoConnection, getDb } = require('../Configurations/mongo');
 
 // Function to fetch products based on filters
-const getProducts = async (size, price, color) => {
+const fetchProducts = async (size, price, color) => {
   try {
     const db = getDb(); // Get the database connection
     const productsCollection = db.collection('userProducts'); // Access the 'userProducts' collection
@@ -41,18 +41,18 @@ const getProducts = async (size, price, color) => {
 };
 
 // Route handler to get products based on filters via GET method
-exports.getProducts = async (req, res) => {
+exports.fetchProducts = async (req, res) => {
   const { size, price, color } = req.query; // Extract query parameters
 
   try {
     // Fetch products
-    const products = await getProducts(size, price, color);
+    const products = await fetchProducts(size, price, color);
 
     // If no data is found, send a 404 status
     if (!products || products.length === 0) {
       return res.status(404).json({ message: 'No products found matching the criteria.' });
     }else{
-        console.log("getProducts")
+        console.log("fetchProducts")
     }
 
     // Send a 200 status with the data if found
