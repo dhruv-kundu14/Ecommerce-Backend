@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.APPPORT || 4123; // Default to 4123 if undefined
 const allowedOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(',')
-  : ['http://localhost:5173', 'http://localhost:9090'];
+  : ['http://localhost:5173', 'http://localhost:9090', 'http://localhost:3000'];
 
 // CORS Middleware
 app.use(

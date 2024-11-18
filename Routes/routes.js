@@ -4,7 +4,8 @@ const router = express.Router();
 // Import controller functions
 const ctrlFetchProducts = require('../Controller/fetchProducts');
 const ctrlAuth = require('../Controller/loginForm'); // Add the auth controller
-const registerFormController = require('../controller/registerForm'); // Import the register controller
+const registerFormController = require('../Controller/registerForm'); // Import the register controller
+const productController = require('../Controller/productsDetail'); // Import the controller
 
 /**
  * @swagger
@@ -37,10 +38,13 @@ const registerFormController = require('../controller/registerForm'); // Import 
  */
 
 // Route for fetching products (GET request)
-router.get('/fetchProducts', ctrlFetchProducts.fetchProducts);
+
 router.post('/api/register', ctrlAuth.registerUser);
 router.post('/api/loginForm', ctrlAuth.loginUser);
 router.post('/api/registerForm', registerFormController.registerUser);
+router.get('/getProducts', productController.getProducts);      // get all product form db
+router.post('/enterProducts', productController.enterProducts); // enter product in db
+router.get('/fetchProducts', ctrlFetchProducts.fetchProducts); // filter product fetch 
 
 // Example route handler
 router.get('/example', (req, res) => {
