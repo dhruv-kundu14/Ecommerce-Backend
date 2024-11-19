@@ -1,17 +1,14 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const MONGO_URI = process.env.MONGO_URL || 'mongodb+srv://dhruv5kun:5MZtNb69Zq5ecHtX@ecommerce-backend.s160e.mongodb.net/ecomm-backend?ssl=true';
+const MONGO_URI = process.env.MONGO_URL || 'mongodb+srv://dhruv5kun:test_pwd@ecommerce-backend.noyuh.mongodb.net/ecomm-backend?retryWrites=true&w=majority';
 
 let db; // Singleton database instance
 
 async function MongoConnection() {
   if (!db) {
     try {
-      const client = new MongoClient(MONGO_URI, {
-        tls: true, // Ensure TLS/SSL is explicitly enabled
-        tlsAllowInvalidCertificates: true, // Use cautiously
-      });
+      const client = new MongoClient(MONGO_URI);
       await client.connect();
       console.log('Connected to MongoDB');
       db = client.db();
