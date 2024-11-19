@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const MONGO_URI = process.env.MONGO_URL || 'mongodb+srv://dhruv5kun:VPgLY8PKwuXGGUvZ@ecommerce-backend.s160e.mongodb.net/ecomm-backend?ssl=false';
+const MONGO_URI = process.env.MONGO_URL || 'mongodb+srv://dhruv5kun:5MZtNb69Zq5ecHtX@ecommerce-backend.s160e.mongodb.net/ecomm-backend?ssl=true';
 
 let db; // Singleton database instance
 
