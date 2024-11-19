@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config(); // Load environment variables
 
@@ -44,6 +43,7 @@ app.use('/common-backend', require('./Routes/routes.js'));
 // Error Handling Middleware
 app.use(notFound);
 app.use(errorHandler);
+
 
 // Establish MongoDB connection and start server
 async function startServer() {

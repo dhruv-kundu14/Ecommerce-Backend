@@ -1,43 +1,37 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const mongoUrl =
-  process.env.MONGO_URL ||
-  'mongodb+srv://dhruv5kun:dhruvMongo@ecommerce-backend.s160e.mongodb.net/ecomm-backend?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGO_URL || 'mongodb+srv://dhruv5kun:dhruvMongo@ecommerce-backend.s160e.mongodb.net/ecomm-backend';
 
-let db;
+let db; // Singleton database instance
 
+/**
+ * Establishes a connection to the MongoDB server.
+ * Initializes the database instance if not already connected.
+ * @returns {Promise<void>} Resolves when the database is connected.
+ */
 async function MongoConnection() {
-  const client = new MongoClient(mongoUrl, {
-    useNewUrlParser: true, // Enable URL parser explicitly (optional for newer drivers)
-    useUnifiedTopology: true, // Ensure the driver uses the unified topology engine
-    tls: true, // Ensure TLS/SSL is explicitly enabled
-  });
-
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB');
-    db = client.db(); // Automatically uses the default database in the connection string
-  } catch (error) {
-    // Enhanced error handling
-    console.error('Error connecting to MongoDB:', error.message);
-
-    // Suggest potential solutions
-    if (error.name === 'MongoParseError') {
-      console.error(
-        'Check your connection string format. It must start with "mongodb://" or "mongodb+srv://".'
-      );
-    } else if (error.name === 'MongoNetworkError') {
-      console.error(
-        'Network error detected. Verify your network configuration and ensure your IP is whitelisted in MongoDB Atlas.'
-      );
+  if (!db) {
+    try {
+      const client = new MongoClient(MONGO_URI, {
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true,
+      });
+      await client.connect();
+      console.log('Connected to MongoDB');
+      db = client.db(); // Automatically uses the default database from the connection string
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error.message);
+      throw error;
     }
-
-    // Re-throw the error to notify the calling function
-    throw error;
   }
 }
 
+/**
+ * Retrieves the connected database instance.
+ * @returns {Db} The MongoDB database instance.
+ * @throws {Error} If the database connection is not initialized.
+ */
 function getDb() {
   if (!db) {
     throw new Error('Database not initialized. Call MongoConnection first.');
@@ -45,4 +39,5 @@ function getDb() {
   return db;
 }
 
+// Export the functions
 module.exports = { MongoConnection, getDb };
