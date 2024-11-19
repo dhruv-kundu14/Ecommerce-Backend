@@ -44,7 +44,6 @@ app.use('/common-backend', require('./Routes/routes.js'));
 app.use(notFound);
 app.use(errorHandler);
 
-
 // Establish MongoDB connection and start server
 async function startServer() {
   try {
